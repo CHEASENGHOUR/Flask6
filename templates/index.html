@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="box container bg-dark">
+        <h1 class="text-white text-center" >Todo List</h1>
+        <form action="{{ url_for('add_todo') }}" method="POST">
+            <input type="text" name="todo" placeholder="Enter List to do " class="form-control">
+            <table class="table table-success table-striped mt-5">
+                <tr>
+                    <th colspan="3" class="text-center"><h1>To Do</h1></th>
+                </tr>
+                {% for Do in todo %}
+                <tr>
+                    <td 
+                    colspan="2"
+                    class=" text-center {% if task[loop.index0] %}text-decoration-line-through{% endif %}">
+                        {{ Do }}
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-warning">
+                            <a href="{{ url_for('update_todo', task_id=loop.index0) }}">
+                                update
+                            </a>
+                        </button>
+                        <button 
+                        type="submit" 
+                        class="btn btn-success"
+                        >
+                        {% if not task[loop.index0] == True %}
+                        <a href="{{ url_for('mark_done', task=Do) }}">Mark as Done</a>
+                        {% else %}
+                        <a href="{{ url_for('undo_done', task=Do) }}">Undo</a>
+                        {% endif %}
+                        </button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+        </form>
+    </div>
+</body>
+</html>
